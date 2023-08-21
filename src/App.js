@@ -8,66 +8,25 @@ const App = () => {
     // p5.js global variables
     // ...
     
-    const GRID_SIZE = 12;
+    
     // const GRID2_SIZE = 3;
     // const GRID3_SIZE = 12;
-    const TILE_WIDTH = 100;
-    const TILE_HEIGHT = 50;
-    const MAX_HEIGHT = 100;
 
     let tile_images = [];
 
-    let x = 0;
-    let y = 0;
-    let mouseX = 0;
-    let mouseY = 0;
     
-    let width = window.innerWidth;
-    let height = window.innerHeight;
+    // let loadImage = window.loadImage;
 
-    let floor;
-    let first;
-    let keyCode;
-    let UP_ARROW = 38;
-    let DOWN_ARROW = 40;
-    let LEFT_ARROW = 37;
-    let RIGHT_ARROW = 39;
+    // let image = window.image;
 
-    let saveJSON = window.saveJSON;
-    let loadJSON = window.loadJSON;
-    let loadImage = window.loadImage;
+    // let createCanvas = window.createCanvas;
 
-    let image = window.image;
+    // let background = window.background;
 
-    let createCanvas = window.createCanvas;
+    // let windowHeight = window.windowHeight;
+    // let windowWidth = window.windowWidth;
 
-    let background = window.background;
-
-    let windowHeight = window.windowHeight;
-    let windowWidth = window.windowWidth;
-
-    let x_start = 0;
-    let y_start = 0;
-    let x_start2 = 0;
-    let y_start2 = 0;
-    let url = window.location.href;
-    let url2 = "map.json";
-
-    let grid = [
-      [14, 23, 23, 23, 23, 35 , 23, 23, 23, 13, 0, 0],
-      [21, 33, 33, 33, 33, 33, 33, 33, 33, 20, 0, 0],
-      [21, 33,  0,  0, 33, 33, 33,  1, 33, 20, 0, 0],
-      [21, 33,  0,  0, 33,  1,  1, 10, 33, 20, 0, 0],
-      [36, 33, 33, 33, 33, 33, 33, 33, 33, 20, 0, 0],
-      [36, 33,  38,  37, 33, 18, 17, 10, 33, 20, 0, 0],
-      [21, 33,  4,  7, 33, 16, 19, 10, 33, 20, 0, 0],
-      [21, 33,  6,  8, 33, 10, 10, 10, 33, 20, 0, 0],
-      [21, 33, 33, 33, 33, 33, 33, 33, 33, 20, 0, 0],
-      [11, 22, 22, 22, 22, 22, 22, 22, 22, 12, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ];
-    console.log(grid);
+    
 
 
     // let grid2 = [
@@ -92,15 +51,7 @@ const App = () => {
     //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     // ];
 
-    //make initial position of cursor
-    let cursor = {
-      x: 0,
-      y: 0
-    };
-    let tile = 0;
     
-    //move cursor
-    let opt = false;
   
 
     let cat = [0, 1, 10, 11, 15, 16, 20, 24, 37]; // category tiles
@@ -227,139 +178,6 @@ const App = () => {
 
     
 
-    //change grid if there's cursor
-    function pointGrid() {
-      grid[10][10] = grid[cursor.x][cursor.y];
-      
-      grid[cursor.x][cursor.y] = 0;
-      // categorizer();
-      console.log(grid[cursor.x][cursor.y]);
-    }
-    
-    //restore grid
-    function restoreGrid() {
-      grid[cursor.x][cursor.y] = grid[10][10];
-      grid[10][10] = 0;
-    }
-
-    //change grid after selecting tile
-    function changeTile(tile) {
-      grid[11][11] = tile;
-    }
-
-    // function categorizer(){
-    //   curx = cursor.x;
-    //   cury = cursor.y;
-    //   grid2[1][1] = grid3[curx][cury];
-    //   grid2[0][3] = grid[0][3];
-    //   grid2[3][0] = grid[3][0];
-    // }
-
-    function mousePressed() {
-      if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-        let x = floor((mouseY - y_start) / TILE_HEIGHT - (mouseX - x_start) / TILE_WIDTH);
-        let y = floor((mouseX - x_start) / TILE_WIDTH + (mouseY - y_start) / TILE_HEIGHT) -1;
-        if (x >= 0 && x < GRID_SIZE-2 && y >= 0 && y < GRID_SIZE-2) {
-          moveCursor(x - cursor.x, y - cursor.y);
-        }
-      }
-    }
-
-    function moveCursor(x, y) {
-        if (cursor.x + x >= 0 && cursor.x + x < GRID_SIZE && cursor.y + y >= 0 && cursor.y + y < GRID_SIZE && opt === false) {
-          
-          cursor.x += x;
-          cursor.y += y;
-          pointGrid();
-        }
-      }
-      // moveCursor(x, y);
-
-    function switchOpt() {
-      if (opt === false) {
-        opt = true;
-      } else {
-        opt = false;
-      }
-    }
-
-    //keyboard input
-    first = true;
-    p.keyReleased = () => {
-      console.log('Key Released:', p.key);
-      console.log('p.key:', p.key);
-      console.log('opt:', opt);
-      console.log('first:', first);
-      if (p.key === UP_ARROW && opt === false && first === true) {
-        moveCursor(-1, 0);
-        console.log('p.key:', p.key);
-        first = false;
-      } else if (p.key === DOWN_ARROW && opt === false && first === true) {
-        moveCursor(1, 0);
-        first = false;
-      } else if (p.key === LEFT_ARROW && opt === false && first === true) {
-        moveCursor(0, -1);
-        first = false;
-      } else if (p.key === RIGHT_ARROW && opt === false && first === true) {
-        moveCursor(0, 1);
-        first = false;
-      } else if (p.key === UP_ARROW && opt === false && first === false) {
-        restoreGrid();
-        moveCursor(-1, 0);
-      } else if (p.key === DOWN_ARROW && opt === false && first === false) {
-        restoreGrid();
-        moveCursor(1, 0);
-      } else if (p.key === LEFT_ARROW && opt === false && first === false) {
-        restoreGrid();
-        moveCursor(0, -1);
-      } else if (p.key === RIGHT_ARROW && opt === false && first === false) {
-        restoreGrid();
-        moveCursor(0, 1);
-      } //space
-      else if (p.key === 32 && opt === false) {
-        first = true;
-        switchOpt();
-        grid[11][11] = grid[10][10];
-      }
-      else if (p.key === UP_ARROW && opt === true) {
-        if (tile < 38) {
-          tile++;
-        } else {
-          tile = 0;
-        }
-        changeTile(tile);
-      } else if (p.key === DOWN_ARROW && opt === true) {
-        if (tile > 0) {
-          tile--;
-        } else {
-          tile = 38;
-        }
-        changeTile(tile);
-      } else if (p.key === LEFT_ARROW && opt === true) {
-        if (tile > 0) {
-          tile--;
-        } else {
-          tile = 38;
-        }
-        changeTile(tile);
-      } else if (p.key === RIGHT_ARROW && opt === true) {
-        if (tile < 38) {
-          tile++;
-        } else {
-          tile = 0;
-        }
-        changeTile(tile);
-      } else if (p.key === 32 && opt === true) {
-        switchOpt();
-        grid[cursor.x][cursor.y] = grid[11][11];
-      } 
-      //download map to file using z key
-      else if (p.key === 90) {
-        saveJSON(grid, 'map.json', true);
-      }
-    }
-
-    // keyReleased();
     
 
     p.setup = () => {
@@ -426,7 +244,7 @@ const App = () => {
       //     }
       //   }
       // }
-      
+			
       function draw_tile(img, x, y) {
         let x_screen = x_start + (x - y) * TILE_WIDTH/2;
         let y_screen = y_start + (x + y) * TILE_HEIGHT/2;
@@ -463,8 +281,201 @@ const App = () => {
     };
   };
 
+
+  //make initial position of cursor
+  let cursor = {
+    x: 0,
+    y: 0
+  };
+  let tile = 0;
+  
+  //move cursor
+  let opt = false;
+
+  first = true;
+
+  let floor;
+  let first;
+  // let keyCode;
+  // let UP_ARROW = 38;
+  // let DOWN_ARROW = 40;
+  // let LEFT_ARROW = 37;
+  // let RIGHT_ARROW = 39;
+
+  let saveJSON = window.saveJSON;
+  let loadJSON = window.loadJSON;
+
+  const TILE_WIDTH = 100;
+  const TILE_HEIGHT = 50;
+  const MAX_HEIGHT = 100;
+
+  let x = 0;
+  let y = 0;
+  let mouseX = 0;
+  let mouseY = 0;
+
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+
+  let x_start = 0;
+  let y_start = 0;
+  let x_start2 = 0;
+  let y_start2 = 0;
+  let url = window.location.href;
+  let url2 = "map.json";
+
+
+  const GRID_SIZE = 12;
+  let grid = [
+    [14, 23, 23, 23, 23, 35 , 23, 23, 23, 13, 0, 0],
+    [21, 33, 33, 33, 33, 33, 33, 33, 33, 20, 0, 0],
+    [21, 33,  0,  0, 33, 33, 33,  1, 33, 20, 0, 0],
+    [21, 33,  0,  0, 33,  1,  1, 10, 33, 20, 0, 0],
+    [36, 33, 33, 33, 33, 33, 33, 33, 33, 20, 0, 0],
+    [36, 33,  38,  37, 33, 18, 17, 10, 33, 20, 0, 0],
+    [21, 33,  4,  7, 33, 16, 19, 10, 33, 20, 0, 0],
+    [21, 33,  6,  8, 33, 10, 10, 10, 33, 20, 0, 0],
+    [21, 33, 33, 33, 33, 33, 33, 33, 33, 20, 0, 0],
+    [11, 22, 22, 22, 22, 22, 22, 22, 22, 12, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ];
+  console.log(grid);
+
+  //change grid if there's cursor
+  function pointGrid() {
+    grid[10][10] = grid[cursor.x][cursor.y];
+    
+    grid[cursor.x][cursor.y] = 0;
+    // categorizer();
+    console.log(grid[cursor.x][cursor.y]);
+  }
+  
+  //restore grid
+  function restoreGrid() {
+    grid[cursor.x][cursor.y] = grid[10][10];
+    grid[10][10] = 0;
+  }
+
+  //change grid after selecting tile
+  function changeTile(tile) {
+    grid[11][11] = tile;
+  }
+
+  // function categorizer(){
+  //   curx = cursor.x;
+  //   cury = cursor.y;
+  //   grid2[1][1] = grid3[curx][cury];
+  //   grid2[0][3] = grid[0][3];
+  //   grid2[3][0] = grid[3][0];
+  // }
+
+  function mousePressed() {
+    if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+      let x = floor((mouseY - y_start) / TILE_HEIGHT - (mouseX - x_start) / TILE_WIDTH);
+      let y = floor((mouseX - x_start) / TILE_WIDTH + (mouseY - y_start) / TILE_HEIGHT) -1;
+      if (x >= 0 && x < GRID_SIZE-2 && y >= 0 && y < GRID_SIZE-2) {
+        moveCursor(x - cursor.x, y - cursor.y);
+      }
+    }
+  }
+
+  function moveCursor(x, y) {
+    if (cursor.x + x >= 0 && cursor.x + x < GRID_SIZE && cursor.y + y >= 0 && cursor.y + y < GRID_SIZE && opt === false) {
+      
+      cursor.x += x;
+      cursor.y += y;
+      pointGrid();
+    }
+  }
+    // moveCursor(x, y);
+
+  function switchOpt() {
+    if (opt === false) {
+      opt = true;
+    } else {
+      opt = false;
+    }
+  }
+
+  const keyReleased = (e) => {
+    console.log('Key Released:', e.key);
+    console.log('e.key:', e.key);
+    console.log('opt:', opt);
+    console.log('first:', first);
+    console.log('cursor.x:', cursor.x);
+    console.log('cursor.y:', cursor.y);
+    if (e.key === "ArrowUp" && opt === false && first === true) {
+      moveCursor(-1, 0);
+      console.log('e.key:', e.key);
+      first = false;
+    } else if (e.key === "ArrowDown" && opt === false && first === true) {
+      moveCursor(1, 0);
+      first = false;
+    } else if (e.key === "ArrowLeft" && opt === false && first === true) {
+      moveCursor(0, -1);
+      first = false;
+    } else if (e.key === "ArrowRight" && opt === false && first === true) {
+      moveCursor(0, 1);
+      first = false;
+    } else if (e.key === "ArrowUp" && opt === false && first === false) {
+      restoreGrid();
+      moveCursor(-1, 0);
+    } else if (e.key === "ArrowDown" && opt === false && first === false) {
+      restoreGrid();
+      moveCursor(1, 0);
+    } else if (e.key === "ArrowLeft" && opt === false && first === false) {
+      restoreGrid();
+      moveCursor(0, -1);
+    } else if (e.key === "ArrowRight" && opt === false && first === false) {
+      restoreGrid();
+      moveCursor(0, 1);
+    } //space
+    else if (e.key === " " && opt === false) {
+      first = true;
+      switchOpt();
+      grid[11][11] = grid[10][10];
+    }
+    else if (e.key === "ArrowUp" && opt === true) {
+      if (tile < 38) {
+        tile++;
+      } else {
+        tile = 0;
+      }
+      changeTile(tile);
+    } else if (e.key === "ArrowDowns" && opt === true) {
+      if (tile > 0) {
+        tile--;
+      } else {
+        tile = 38;
+      }
+      changeTile(tile);
+    } else if (e.key === "ArrowLeft" && opt === true) {
+      if (tile > 0) {
+        tile--;
+      } else {
+        tile = 38;
+      }
+      changeTile(tile);
+    } else if (e.key === "ArrowRight" && opt === true) {
+      if (tile < 38) {
+        tile++;
+      } else {
+        tile = 0;
+      }
+      changeTile(tile);
+    } else if (e.key === " " && opt === true) {
+      switchOpt();
+      grid[cursor.x][cursor.y] = grid[11][11];
+    } 
+    //download map to file using z key
+    else if (e.key === "z") {
+      saveJSON(grid, 'map.json', true);
+    }
+  };
+
   useEffect(() => {
-    document.addEventListener('keydown', sketch, true)
+    document.addEventListener('keydown', keyReleased, true)
     const canvas = new p5(sketch);
     return () => {
       canvas.remove();
