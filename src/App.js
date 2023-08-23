@@ -348,7 +348,6 @@ const App = () => {
     
     grid[cursor.x][cursor.y] = 0;
     // categorizer();
-    console.log(grid[cursor.x][cursor.y]);
   }
   
   //restore grid
@@ -370,21 +369,20 @@ const App = () => {
   //   grid2[3][0] = grid[3][0];
   // }
 
-  function mousePressed() {
-    if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-      let x = floor((mouseY - y_start) / TILE_HEIGHT - (mouseX - x_start) / TILE_WIDTH);
-      let y = floor((mouseX - x_start) / TILE_WIDTH + (mouseY - y_start) / TILE_HEIGHT) -1;
-      if (x >= 0 && x < GRID_SIZE-2 && y >= 0 && y < GRID_SIZE-2) {
-        moveCursor(x - cursor.x, y - cursor.y);
-      }
-    }
-  }
+  // function mousePressed() {
+  //   if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+  //     let x = floor((mouseY - y_start) / TILE_HEIGHT - (mouseX - x_start) / TILE_WIDTH);
+  //     let y = floor((mouseX - x_start) / TILE_WIDTH + (mouseY - y_start) / TILE_HEIGHT) -1;
+  //     if (x >= 0 && x < GRID_SIZE-2 && y >= 0 && y < GRID_SIZE-2) {
+  //       moveCursor(x - cursor.x, y - cursor.y);
+  //     }
+  //   }
+  // }
 
   function moveCursor(x, y) {
     if (cursor.x + x >= 0 && cursor.x + x < GRID_SIZE && cursor.y + y >= 0 && cursor.y + y < GRID_SIZE && opt === false) {
-      
-      cursor.x += x;
-      cursor.y += y;
+      cursor.x = (cursor.x + x) % (GRID_SIZE-2);
+      cursor.y = (cursor.y + y) % (GRID_SIZE-2);
       pointGrid();
     }
   }
@@ -406,27 +404,48 @@ const App = () => {
     console.log('cursor.x:', cursor.x);
     console.log('cursor.y:', cursor.y);
     if (e.key === "ArrowUp" && opt === false && first === true) {
-      moveCursor(-1, 0);
+      if(cursor.x === 0) {
+        moveCursor(GRID_SIZE-3, 0);
+      }
+      else {
+        moveCursor(-1, 0);
+      }
       console.log('e.key:', e.key);
       first = false;
     } else if (e.key === "ArrowDown" && opt === false && first === true) {
       moveCursor(1, 0);
       first = false;
     } else if (e.key === "ArrowLeft" && opt === false && first === true) {
-      moveCursor(0, -1);
+      if (cursor.y === 0) {
+        moveCursor(0, GRID_SIZE-3);
+      }
+      else {
+        moveCursor(0, -1);
+      }
       first = false;
     } else if (e.key === "ArrowRight" && opt === false && first === true) {
       moveCursor(0, 1);
       first = false;
     } else if (e.key === "ArrowUp" && opt === false && first === false) {
       restoreGrid();
-      moveCursor(-1, 0);
+      if(cursor.x === 0) {
+        moveCursor(GRID_SIZE-3, 0);
+      }
+      else {
+        moveCursor(-1, 0);
+      }
     } else if (e.key === "ArrowDown" && opt === false && first === false) {
       restoreGrid();
       moveCursor(1, 0);
     } else if (e.key === "ArrowLeft" && opt === false && first === false) {
       restoreGrid();
-      moveCursor(0, -1);
+      if (cursor.y === 0) {
+        moveCursor(0, GRID_SIZE-3);
+      }
+      else {
+        moveCursor(0, -1);
+      }
+      first = false;
     } else if (e.key === "ArrowRight" && opt === false && first === false) {
       restoreGrid();
       moveCursor(0, 1);
