@@ -191,11 +191,11 @@ const App = () => {
       // for dark mode
       // p.background("black");
       // p.fill(255);
-      p.text("Use arrow keys to move cursor", 200, 100);
-      p.text("Press space to select tile", 200, 150);
-      p.text("Use arrow keys to select tile", 200, 200);
-      p.text("Press space to place tile", 200, 250);
-      p.text("Press z to download map", 200, 300);
+      p.text("Use arrow keys to select cursor", 200, 100);
+      p.text("Press space to customize tile", 200, 150);
+      p.text("Use arrow keys to choose tile", 200, 200);
+      p.text("Press space to select tile", 200, 250);
+      // p.text("Press z to download map", 200, 300);
 
       
 
