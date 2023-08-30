@@ -219,6 +219,9 @@ const App = () => {
         y_start = 50;
         for (let i = 0; i < GRID_SIZE; i++) {
           for (let j = 0; j < GRID_SIZE; j++) {
+            // if(cursor.x == j && cursor.y == i) {
+            //   console.log("cursor", grid[j][i], (tile_images[grid[j][i]]), i, j);
+            // }
             draw_tile((tile_images[grid[j][i]]), i, j);
           }
         }
@@ -268,8 +271,8 @@ const App = () => {
       
       function draw() {
         // background("black");
+        p.clear();
         draw_grid();
-        
         // draw_grid2(); 
       }
 
@@ -326,6 +329,7 @@ const App = () => {
 
 
   const GRID_SIZE = 12;
+
   let grid = [
     [14, 23, 23, 23, 23, 35 , 23, 23, 23, 13, 0, 0],
     [21, 33, 33, 33, 33, 33, 33, 33, 33, 20, 0, 0],
@@ -340,7 +344,7 @@ const App = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ];
-  console.log(grid);
+  // console.log(grid);
 
   //change grid if there's cursor
   function pointGrid() {
@@ -397,12 +401,12 @@ const App = () => {
   }
 
   const keyReleased = (e) => {
-    console.log('Key Released:', e.key);
-    console.log('e.key:', e.key);
-    console.log('opt:', opt);
-    console.log('first:', first);
-    console.log('cursor.x:', cursor.x);
-    console.log('cursor.y:', cursor.y);
+    // console.log('Key Released:', e.key);
+    // console.log('e.key:', e.key);
+    // console.log('opt:', opt);
+    // console.log('first:', first);
+    // console.log('cursor.x:', cursor.x);
+    // console.log('cursor.y:', cursor.y);
     if (e.key === "ArrowUp" && opt === false && first === true) {
       if(cursor.x === 0) {
         moveCursor(GRID_SIZE-3, 0);
@@ -410,7 +414,7 @@ const App = () => {
       else {
         moveCursor(-1, 0);
       }
-      console.log('e.key:', e.key);
+      // console.log('e.key:', e.key);
       first = false;
     } else if (e.key === "ArrowDown" && opt === false && first === true) {
       moveCursor(1, 0);
@@ -492,6 +496,7 @@ const App = () => {
       saveJSON(grid, 'map.json', true);
     }
   };
+  
 
   useEffect(() => {
     document.addEventListener('keydown', keyReleased, true)

@@ -322,10 +322,17 @@ let x_start2 = 0;
 let y_start2 = 0;
 
 function draw_grid() {
+  console.log("yrd");
+
   x_start = width/2 - TILE_WIDTH/2;
   y_start = 50;
   for (let i = 0; i < GRID_SIZE; i++) {
     for (let j = 0; j < GRID_SIZE; j++) {
+      console.log("curso zr", cursor.x, cursor.y);
+      if(cursor.x == j && cursor.y == i) {
+        console.log("cursor", grid[j][i]);
+      }
+
       draw_tile((tile_images[grid[j][i]]), i, j);
     }
   }
